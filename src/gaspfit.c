@@ -34,6 +34,9 @@ extern int ErrNum;
 boolean DesignJob = NO;
 
 boolean isCorParNull;
+/* 2021.12.31: added these two flags to flag no SPVar and ErrVar input*/ 
+boolean isSPVarNull;
+boolean isErrVarNull;
 
 int CalcFit(const Matrix *X, const real *y,
             const LinModel *RegMod, const LinModel *SPMod,
@@ -110,8 +113,8 @@ int FitBest(KrigingModel *KrigMod, size_t Tries, real CritLogLikeDiff,
       {
         MatCopy(CorPar, KrigCorPar(KrigMod));
       }
-
-      if (RanErr && *SPVar != NA_REAL && *ErrVar != NA_REAL)
+      /* Use the two flags to signal no SPVar and ErrVar input*/ 
+      if (RanErr && !isSPVarNull && !isErrVarNull)
       {
         KrigMod->SPVarProp = *SPVar / (*SPVar + *ErrVar);
 
@@ -120,7 +123,6 @@ int FitBest(KrigingModel *KrigMod, size_t Tries, real CritLogLikeDiff,
           KrigMod->SPVarProp = SPVarPropMax;
       }
     }
-
     ErrThisTry = MLEFit(&RegCorPar, KrigMod, LogLikeTol,
                         CritLogLikeDiff, j + 1, &NegLogLikeTry,
                         &CondNumTry, &nEvalsTry);
@@ -169,9 +171,7 @@ int FitBest(KrigingModel *KrigMod, size_t Tries, real CritLogLikeDiff,
     }
     tick(1);
   }
-
   AllocFree(YHatCV);
-
   return ErrNum;
 }
 
@@ -215,17 +215,25 @@ SEXP fit(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
   if (Rf_length(corpar) == 1)
   {
     isCorParNull = 1;
-    MatAlloc(MatNumCols(&X), 2, RECT, &CorPar);
+    MatAlloc((size_t)Rf_length(VECTOR_ELT(sp_mod, 0)), 2, RECT, &CorPar);
   }
   else
   {
     isCorParNull = 0;
     MatrixDFAlloc(&CorPar, corpar);
   }
+  isSPVarNull = 0;
+  isErrVarNull = 0;
   if (SPVar < 0)
+  {
+    isSPVarNull = 1;
     SPVar = NA_REAL;
+  }
   if (ErrVar < 0)
+  {
+    isErrVarNull = 1;
     ErrVar = NA_REAL;
+  }
   RealVecAlloc(&y, y_R);
   RegModDFAlloc(&RegMod_Term, reg_mod);
   RegModDFAlloc(&SPMod_Term, sp_mod);
@@ -248,16 +256,15 @@ SEXP fit(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
   else
   {
     AllocFree(y);
-    AllocFree(RegMod_Term);
-    AllocFree(SPMod_Term);
-    AllocFree(xName);
+    StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+    StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+    StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
     MatFree(&X);
     MatFree(&CorPar);
     ModFree(&RegMod);
     ModFree(&SPMod);
     Rf_error("Regression model and Stochastic Process model setup failed.");
   }
-
   int result = CalcFit(&X, y, &RegMod, &SPMod, CorFamNum, RanErr,
                        &SPVar, &ErrVar,
                        Tries, CritLogLikeDiff, LogLikeTol, ModCompCritNum, &CorPar, &Beta, &Summary);
@@ -288,9 +295,9 @@ SEXP fit(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
   }
   UNPROTECT(1);
   AllocFree(y);
-  AllocFree(RegMod_Term);
-  AllocFree(SPMod_Term);
-  AllocFree(xName);
+  StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+  StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+  StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
   AllocFree(Beta);
   AllocFree(Summary);
   MatFree(&X);

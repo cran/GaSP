@@ -327,20 +327,16 @@ PlotJointEffects <- function(joint_effect, anova_percent, x_units = NULL,
   if (!is.null(x_units)) {
     if (i == 0) {
       x1_lab <- paste(x1_name, " ", "(", x_units[.XUnitsFind(x1_name, x_names)], ")", sep = "") # Format: x1_name (x1_unit)
-    }
-    else if (i > 0) {
+    } else if (i > 0) {
       x1_lab <- paste0(x1_name, " ", "(10^(", -i, ") ", x_units[.XUnitsFind(x1_name, x_names)], ")", sep = "") # Format: x1_name (10^(-n) x1_unit)
-    }
-    else {
+    } else {
       x1_lab <- paste0(x1_name, " ", "(10^", -i, " ", x_units[.XUnitsFind(x1_name, x_names)], ")", sep = "") # Format: x1_name (10^n x1_unit)
     }
     if (j == 0) {
       x2_lab <- paste(x2_name, " ", "(", x_units[.XUnitsFind(x2_name, x_names)], ")", sep = "") # Format: x1_name (x1_unit)
-    }
-    else if (j > 0) {
+    } else if (j > 0) {
       x2_lab <- paste0(x2_name, " ", "(10^(", -j, ") ", x_units[.XUnitsFind(x2_name, x_names)], ")", sep = "") # Format: x1_name (10^(-n) x1_unit)
-    }
-    else {
+    } else {
       x2_lab <- paste0(x2_name, " ", "(10^", -j, " ", x_units[.XUnitsFind(x2_name, x_names)], ")", sep = "") # Format: x1_name (10^n x1_unit)
     }
   } else {

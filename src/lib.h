@@ -284,7 +284,8 @@ void OutDataRow(FILE *OutFile, const real *x, size_t n);
 
 #define CodeBug(problem)                                        \
      {                                                          \
-          Rf_error("Code bug detected: %s, file %s, line %d\n", \
+          Rprintf("\n");                                        \
+          Rf_error("\nCode bug detected: %s, file %s, line %d\n", \
                    problem, __FILE__, __LINE__);                \
      }
 
@@ -292,6 +293,7 @@ void OutDataRow(FILE *OutFile, const real *x, size_t n);
      {                                                               \
           if (!(expression))                                         \
           {                                                          \
+               Rprintf("\n");                                        \
                Rf_error("Code check failed: %s, file %s, line %d\n", \
                         #expression, __FILE__, __LINE__);            \
           }                                                          \

@@ -73,7 +73,6 @@ int CalcVisualize(const Matrix *X, const real *y,
      if (ErrNum == OK)
      {
           Perc = MatColAdd("y", &ANOVAPerc);
-
           ErrNum = CompEffects(&KrigMod, "y", &PredReg,
                                GroupSize, &GroupVarIndex, *MainPerc, *InterPerc,
                                Perc, Average, SEAve);
@@ -97,14 +96,15 @@ int CalcVisualize(const Matrix *X, const real *y,
           Summary[0][1] = *Average;
           Summary[0][2] = *SEAve;
      }
-     KrigModFree(&KrigMod);
 
      AllocFree(GroupSize);
      AllocFree(ANOVATot);
      AllocFree(Average);
      AllocFree(SEAve);
+     AllocFree(Coltypes);
+     AllocFree(ColtypesI);
      MatFree(&GroupVarIndex);
-
+     KrigModFree(&KrigMod);
      if (ErrNum != OK)
           ErrReturn = ErrNum;
 
@@ -163,9 +163,9 @@ SEXP visualize(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
      if (ErrNum != OK)
      {
           AllocFree(y);
-          AllocFree(RegMod_Term);
-          AllocFree(SPMod_Term);
-          AllocFree(xName);
+          StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+          StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+          StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
           MatFree(&X);
           MatFree(&XDescrip);
           MatFree(&PredReg);
@@ -192,9 +192,9 @@ SEXP visualize(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
      }
      UNPROTECT(1);
      AllocFree(y);
-     AllocFree(RegMod_Term);
-     AllocFree(SPMod_Term);
-     AllocFree(xName);
+     StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+     StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+     StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
      AllocFree(Summary);
      MatFree(&X);
      MatFree(&CorPar);

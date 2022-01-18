@@ -115,9 +115,9 @@ SEXP predict(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
   else
   {
     AllocFree(y);
-    AllocFree(RegMod_Term);
-    AllocFree(SPMod_Term);
-    AllocFree(xName);
+    StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+    StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+    StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
     MatFree(&CorPar);
     MatFree(&YPred);
     MatFree(&X);
@@ -131,14 +131,14 @@ SEXP predict(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
   SEXP reslist = PROTECT(allocVector(VECSXP, 2));
   if (result == OK)
   {
-    SEXP y_rowName = getAttrib(xPred, R_RowNamesSymbol);
+    SEXP y_rowName = PROTECT(getAttrib(xPred, R_RowNamesSymbol));
     SEXP y_colName = PROTECT(allocVector(STRSXP, 2));
     SET_STRING_ELT(y_colName, 0, mkChar("Pred"));
     SET_STRING_ELT(y_colName, 1, mkChar("SE"));
     SEXP yPreddf = MatrixDFConstructor(&YPred, y_rowName, y_colName);
 
     SET_VECTOR_ELT(reslist, 0, yPreddf);
-    UNPROTECT(1);
+    UNPROTECT(2);
     if (GenPredCoefs)
     {
       SEXP predcoefvec = RealVecConstructor(&PredCoef, MatNumRows(&X));
@@ -149,9 +149,9 @@ SEXP predict(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
 
   UNPROTECT(1);
   AllocFree(y);
-  AllocFree(RegMod_Term);
-  AllocFree(SPMod_Term);
-  AllocFree(xName);
+  StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+  StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+  StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
   MatFree(&CorPar);
   MatFree(&YPred);
   MatFree(&X);

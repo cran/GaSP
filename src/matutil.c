@@ -30,33 +30,32 @@ extern int     ErrorSeverityLevel;
 /*                       messages.                               */
 /*                                                               */
 /*   Version:  1996 January 10                                   */
-/*   Updated: 2020-07-19 Disabled CodeCheck as it crashes R      */
 /*****************************************************************/
 
 int *MatIntCol(const Matrix *M, size_t j)
 {
-     // CodeCheck(j < MatNumCols(M) && MatColType(M, j) == INTEGERC)
+     CodeCheck(j < MatNumCols(M) && MatColType(M, j) == INTEGERC)
 
      return M->IntElem[j];
 }
 
 real *MatCol(const Matrix *M, size_t j)
 {
-     // CodeCheck(j < MatNumCols(M) && MatColType(M, j) == REALC)
+     CodeCheck(j < MatNumCols(M) && MatColType(M, j) == REALC)
 
      return M->Elem[j];
 }
 
 size_t *MatSize_tCol(const Matrix *M, size_t j)
 {
-     // CodeCheck(j < MatNumCols(M) && MatColType(M, j) == SIZE_T)
+     CodeCheck(j < MatNumCols(M) && MatColType(M, j) == SIZE_T)
 
      return M->Size_tElem[j];
 }
 
 string *MatStrCol(const Matrix *M, size_t j)
 {
-     // CodeCheck(j < MatNumCols(M) && MatColType(M, j) == STRING)
+     CodeCheck(j < MatNumCols(M) && MatColType(M, j) == STRING)
 
      return M->StrElem[j];
 }

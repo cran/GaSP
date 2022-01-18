@@ -252,9 +252,9 @@ SEXP crossvalidate(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
   else
   {
     AllocFree(y);
-    AllocFree(RegMod_Term);
-    AllocFree(SPMod_Term);
-    AllocFree(xName);
+    StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+    StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+    StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
     MatFree(&X);
     MatFree(&CorPar);
     ModFree(&RegMod);
@@ -265,20 +265,20 @@ SEXP crossvalidate(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
   SEXP cvdf;
   if (result == OK)
   {
-    SEXP y_rowName = getAttrib(x_R, R_RowNamesSymbol);
+    SEXP y_rowName = PROTECT(getAttrib(x_R, R_RowNamesSymbol));
     SEXP y_colName = PROTECT(allocVector(STRSXP, 2));
     SET_STRING_ELT(y_colName, 0, mkChar("Pred"));
     SET_STRING_ELT(y_colName, 1, mkChar("SE"));
     cvdf = MatrixDFConstructor(&CV, y_rowName, y_colName);
 
-    UNPROTECT(1);
+    UNPROTECT(2);
     MatFree(&CV);
   }
 
   AllocFree(y);
-  AllocFree(RegMod_Term);
-  AllocFree(SPMod_Term);
-  AllocFree(xName);
+  StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
+  StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
+  StrFree(&xName, (size_t)Rf_length(getAttrib(x_R, R_NamesSymbol)));
   MatFree(&X);
   MatFree(&CorPar);
   ModFree(&RegMod);

@@ -39,8 +39,7 @@
 
   if (length(rmod) == 0) {
     rmod <- NULL
-  }
-  else {
+  } else {
     rmod <- gsub("I(", "", rmod, fixed = T)
     rmod <- gsub(")", "", rmod, fixed = T)
   }

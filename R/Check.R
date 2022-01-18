@@ -567,8 +567,7 @@
         .Error("'min' must be equal to 'max' for 'Fixed'.", check)
       }
     }
-  }
-  else if (!is.null(num_levels)) {
+  } else if (!is.null(num_levels)) {
     warning("'num_levels will be ignored as 'support' is null.", call. = FALSE)
     use_num_levels <- FALSE
   }

@@ -27,23 +27,16 @@ SEXP RealDFConstructor(real **r, SEXP rowName_R, SEXP colName_R, size_t nRows)
   return df;
 }
 
-SEXP GenerateRowNames(int nRows)
-{
-  SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
-  for (size_t j = 0; j < nRows; j++)
-  {
-    SET_STRING_ELT(rowName, j, mkChar(StrFromSize_t(j + 1)));
-  }
-  UNPROTECT(1);
-  return rowName;
-}
-
 SEXP JointEffDFConstructor(matrix *m)
 {
   int nRows = MatNumRows(m);
   SEXP df = PROTECT(allocVector(VECSXP, 6));
   SEXP colName = PROTECT(allocVector(STRSXP, 6));
-  SEXP rowName = GenerateRowNames(nRows);
+  SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
+  for (size_t j = 0; j < nRows; j++)
+  {
+    SET_STRING_ELT(rowName, j, mkChar(StrFromSize_t(j + 1)));
+  }
   SET_STRING_ELT(colName, 0, mkChar("Variable.x_i"));
   SET_STRING_ELT(colName, 1, mkChar("Variable.x_j"));
   SET_STRING_ELT(colName, 2, mkChar("x_i"));
@@ -77,7 +70,7 @@ SEXP JointEffDFConstructor(matrix *m)
   setAttrib(df, R_NamesSymbol, colName);
   setAttrib(df, R_RowNamesSymbol, rowName);
 
-  UNPROTECT(2);
+  UNPROTECT(3);
   return df;
 }
 
@@ -87,7 +80,11 @@ SEXP MainEffDFConstructor(matrix *m)
   int nRows = MatNumRows(m);
   SEXP df = PROTECT(allocVector(VECSXP, nCols - 1));
   SEXP colName = PROTECT(allocVector(STRSXP, 4));
-  SEXP rowName = GenerateRowNames(nRows);
+  SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
+  for (size_t j = 0; j < nRows; j++)
+  {
+    SET_STRING_ELT(rowName, j, mkChar(StrFromSize_t(j + 1)));
+  }
   SET_STRING_ELT(colName, 0, mkChar("Variable.x_i"));
   SET_STRING_ELT(colName, 1, mkChar("x_i"));
   SET_STRING_ELT(colName, 2, mkChar("y"));
@@ -117,21 +114,8 @@ SEXP MainEffDFConstructor(matrix *m)
   setAttrib(df, R_NamesSymbol, colName);
   setAttrib(df, R_RowNamesSymbol, rowName);
 
-  UNPROTECT(2);
+  UNPROTECT(3);
   return df;
-}
-
-SEXP ANOVARownames(matrix *m)
-{
-  int nRows = MatNumRows(m);
-  SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
-  string *rownames = MatRowNames(m);
-  for (int j = 0; j < nRows; j++)
-  {
-    SET_STRING_ELT(rowName, j, mkChar(rownames[j]));
-  }
-  UNPROTECT(1);
-  return rowName;
 }
 
 SEXP ANOVAMatrixDFConstructor(matrix *m)
@@ -140,7 +124,13 @@ SEXP ANOVAMatrixDFConstructor(matrix *m)
   int nRows = MatNumRows(m);
   SEXP df = PROTECT(allocVector(VECSXP, nCols));
   SEXP colName = PROTECT(allocVector(STRSXP, 1));
-  SEXP rowName = ANOVARownames(m);
+  SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
+  string *rownames = MatRowNames(m);
+  for (int j = 0; j < nRows; j++)
+  {
+    SET_STRING_ELT(rowName, j, mkChar(rownames[j]));
+  }
+
   SET_STRING_ELT(colName, 0, mkChar("y"));
   SEXP col = PROTECT(allocVector(REALSXP, nRows));
   double *pcol = REAL(col);
@@ -154,7 +144,7 @@ SEXP ANOVAMatrixDFConstructor(matrix *m)
   setAttrib(df, R_NamesSymbol, colName);
   setAttrib(df, R_RowNamesSymbol, rowName);
 
-  UNPROTECT(3);
+  UNPROTECT(4);
   return df;
 }
 
@@ -234,6 +224,7 @@ int ANOVAPercAlloc(matrix *ANOVAPerc, matrix *PredReg, const string *xName)
       AllocFree(s);
     }
   }
+  AllocFree(GroupVarIndex);
   return ErrNum;
 }
 
@@ -248,6 +239,16 @@ void ColNameCopy(string **s, SEXP colName)
 
     s[0][i] = StrDup((string)CHAR(STRING_ELT(colName, i)));
   }
+}
+
+void StrFree(string **s, size_t n)
+{
+  for (size_t i = 0; i < n; i++)
+  {
+    if (s[0][i] != NULL)
+      AllocFree(s[0][i]);
+  }
+  AllocFree(s[0]);
 }
 
 void XDescripAlloc(matrix *m, SEXP df, const string *xName)
@@ -280,8 +281,12 @@ void XDescripAlloc(matrix *m, SEXP df, const string *xName)
   }
   MatAllocate(nRows, nCols, RECT, MIXED, Coltypes, YES, m);
   MatPutColName(m, 0, VARIABLE);
-  MatPutColName(m, 1, StrPaste(2, MIN, ".Pred"));
-  MatPutColName(m, 2, StrPaste(2, MAX, ".Pred"));
+  string min_pred = StrPaste(2, MIN, ".Pred");
+  string max_pred = StrPaste(2, MAX, ".Pred");
+  MatPutColName(m, 1, min_pred);
+  MatPutColName(m, 2, max_pred);
+  AllocFree(min_pred);
+  AllocFree(max_pred);
   VecStrCopy(xName, nRows, MatStrCol(m, 0));
   SEXP v = VECTOR_ELT(df, 1);
   VecCopy(REAL(v), nRows, MatCol(m, 1));
@@ -316,7 +321,8 @@ void XDescripAlloc(matrix *m, SEXP df, const string *xName)
       }
     }
   }
-  AllocFree(colNames);
+  StrFree(&colNames, (size_t)Rf_length(getAttrib(df, R_NamesSymbol)));
+  AllocFree(Coltypes);
 }
 
 void MatrixDFCopy(matrix *m, SEXP df)
@@ -381,6 +387,7 @@ double totalTasks;
 double tickSize;
 void ProgressInit(double taskCount)
 {
+  R_FlushConsole();
   Rprintf("\nProgress: [--------------------------------------------------]");
   tickSize = 50 / taskCount;
   totalTasks = taskCount;

@@ -101,10 +101,9 @@ void ErrorToMat(const string Severity, const string Format,
      if (!MatInitialized(&ErrorMat))
      {
           MatInit(RECT, MIXED, YES, &ErrorMat);
-          MatPutText(&ErrorMat,
-                     "The following warning/error messages were generated:\n");
+          MatPutText(&ErrorMat, "The following warning/error messages were generated:\n");
      }
-
+     MatPutText(&ErrorMat, "The following warning/error messages were generated:\n");
      Variable = MatStrColFind(&ErrorMat, VARIABLE, NO);
      Try = MatSize_tColFind(&ErrorMat, "Try", NO);
      Message = MatStrColFind(&ErrorMat, "Message", NO);
@@ -164,7 +163,7 @@ void ErrorMatOut(void)
      {
           MatWriteBlock(&ErrorMat, YES);
           Output("\n");
-          MatReAlloc(0, 0, &ErrorMat);
+          MatFree(&ErrorMat);
      }
 
      ErrorVar = NULL;

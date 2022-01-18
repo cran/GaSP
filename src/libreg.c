@@ -108,31 +108,39 @@ int RegExtract(const Matrix *XDescrip, const string XDescripName,
      Inclusive = MatStrColFind(XDescrip, INCLUSIVE, NO);
      Wt = MatColFind(XDescrip, WEIGHT, NO);
 
-     if ((Support = MatStrColFind(XDescrip,
-                                  StrPaste(2, SUPPORT, ColExt), NO)) == NULL)
+     string col_ext_support = StrPaste(2, SUPPORT, ColExt);
+     string col_ext_min = StrPaste(2, MIN, ColExt);
+     string col_ext_max = StrPaste(2, MAX, ColExt);
+     string col_ext_nl = StrPaste(2, NUM_LEVELS, ColExt);
+     string col_ext_dist = StrPaste(2, DISTRIBUTION, ColExt);
+     string col_ext_cg = StrPaste(2, CAND_GROUP, ColExt);
+
+     if ((Support = MatStrColFind(XDescrip, col_ext_support, NO)) == NULL)
           Support = MatStrColFind(XDescrip, SUPPORT, NO);
 
-     if ((Min = MatColFind(XDescrip,
-                           StrPaste(2, MIN, ColExt), NO)) == NULL)
+     if ((Min = MatColFind(XDescrip, col_ext_min, NO)) == NULL)
           Min = MatColFind(XDescrip, MIN, NO);
 
-     if ((Max = MatColFind(XDescrip,
-                           StrPaste(2, MAX, ColExt), NO)) == NULL)
+     if ((Max = MatColFind(XDescrip, col_ext_max, NO)) == NULL)
           Max = MatColFind(XDescrip, MAX, NO);
 
-     if ((nLevels = MatSize_tColFind(XDescrip,
-                                     StrPaste(2, NUM_LEVELS, ColExt), NO)) == NULL)
+     if ((nLevels = MatSize_tColFind(XDescrip, col_ext_nl, NO)) == NULL)
           nLevels = MatSize_tColFind(XDescrip, NUM_LEVELS, NO);
 
-     if ((Distrib = MatStrColFind(XDescrip,
-                                  StrPaste(2, DISTRIBUTION, ColExt), NO)) == NULL)
+     if ((Distrib = MatStrColFind(XDescrip, col_ext_dist, NO)) == NULL)
           Distrib = MatStrColFind(XDescrip, DISTRIBUTION, NO);
 
-     if ((CandGroup = MatSize_tColFind(XDescrip,
-                                       StrPaste(2, CAND_GROUP, ColExt), NO)) == NULL)
+     if ((CandGroup = MatSize_tColFind(XDescrip, col_ext_cg, NO)) == NULL)
           CandGroup = MatSize_tColFind(XDescrip, CAND_GROUP, NO);
 
      RegAlloc(MatNumRows(XDescrip), Reg);
+
+     AllocFree(col_ext_support);
+     AllocFree(col_ext_min);
+     AllocFree(col_ext_max);
+     AllocFree(col_ext_nl);
+     AllocFree(col_ext_dist);
+     AllocFree(col_ext_cg);
 
      ErrNum = OK;
      for (i = 0; i < MatNumRows(XDescrip) && ErrNum == OK; i++)

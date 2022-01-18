@@ -6,17 +6,19 @@
 #' @param cor_par An optional data frame containing the correlation parameters
 #' with one row per \code{sp_model} term and two columns set up as
 #' described in \code{\link{GaSPModel}} Details;
-#' only used to start the first objective maximization (see Details).
-#' @param sp_var,error_var The stochastic process and error variances;
-#' legal values are only used if \code{random_error = TRUE}
-#' to start the first objective maximization (see Details).
+#' only used to start the first objective optimization (see Details).
+#' @param sp_var,error_var Starting values of the stochastic process and error variances
+#' for the first try to optimize the objective (see Details);
+#' valid (i.e., nonnegative) values will only be used if \code{random_error = TRUE}.
+#' The invalid default value of -1 indicates that a starting value
+#' will be chosen by \code{Fit}.
 #' @param nugget For numerical stability the proportion of the total variance
 #' due to random error is fixed at this value (\code{random_error = FALSE}) or
 #' bounded below by it (\code{random_error = TRUE}).
 #' @param tries Number of optimizations of the objective from different random
 #' starting points.
 #' @param seed The random-number seed to generate starting points.
-#' @param fit_objective The objective that \code{Fit} attempts to maximize:
+#' @param fit_objective The objective that \code{Fit} attempts to optimize:
 #' "Likelihood" (maximum likelihood estimation)
 #' or "Posterior" (Bayesian maximum a posteriori estimation).
 #' @param theta_standardized_min,theta_standardized_max
@@ -25,7 +27,7 @@
 #' of the \eqn{\alpha} parameter of power-exponential.
 #' @param derivatives_min,derivatives_max The minimum and maximum
 #' of the \eqn{\delta} parameter of Matern.
-#' @param log_obj_tol An absolute tolerance for terminating the maximization
+#' @param log_obj_tol An absolute tolerance for terminating the optimization
 #' of the log of the objective.
 #' @param log_obj_diff The critical value for the change in the log objective
 #' for informal tests during optimization of correlation parameters.
@@ -35,7 +37,7 @@
 #' for each \eqn{\theta} parameter;
 #' used only if \code{fit_objective = "Posterior"}.
 #' @param model_comparison The criterion used to select from multiple solutions
-#' when \eqn{\code{tries} > 1}: the objective function ("Objective")
+#' when \code{tries}\eqn{ > 1}: the objective function ("Objective")
 #' or leave-one-out cross validation ("CV").
 #' @return A \code{GaSPModel} object, which is a list with the following components:
 #' \item{x}{The data frame containing the input training data.}
@@ -54,7 +56,7 @@
 #' \item{cond_num}{The condition number.}
 #' \item{CVRMSE}{The leave-one-out cross-validation root mean squared error.}
 #' @details
-#' Fit numerically maximizes the profile objective function
+#' Fit numerically optimizes the profile objective function
 #' with respect to the correlation parameters;
 #' the mean and overall variance parameters are estimated in closed form
 #' given the correlation parameters.

@@ -10,6 +10,8 @@ void MatrixDFAlloc(matrix *m, SEXP df);
 
 int ANOVAPercAlloc(matrix *ANOVAPerc, matrix *PredReg, const string *xName);
 
+void StrFree(string **s, size_t n);
+
 void XDescripAlloc(matrix *m, SEXP df, const string *xName);
 
 void RealDFAlloc(real **r, SEXP df);
