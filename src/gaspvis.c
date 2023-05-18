@@ -190,7 +190,6 @@ SEXP visualize(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
           SEXP summary = RealVecConstructor(&Summary, 3);
           SET_VECTOR_ELT(results, 3, summary);
      }
-     UNPROTECT(1);
      AllocFree(y);
      StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
      StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
@@ -209,6 +208,7 @@ SEXP visualize(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
      {
           Rf_error("GaSP Visualise failed.");
      }
+     UNPROTECT(1);
      return results;
 }
 
@@ -417,12 +417,12 @@ void AvePred(KrigingModel *KrigMod, const Matrix *PredReg,
              const size_t *nSPTerms, const Matrix *IndexSP,
              real *fAve, real *rAve, real *RAve)
 {
-     LinModel *RegMod, *SPMod;
-     Matrix GAve;
-     real wRw, wRwj, SPVarPropSave;
-     real *f, *fj, *g, *r, *rj, *Rj = NULL, *Wt = NULL, *xRow;
-     size_t i, j, kReg, kSP, m, n;
-     size_t *IndexSPCol, *xIndex;
+     const LinModel *RegMod, *SPMod;
+     Matrix         GAve;
+     real           wRw, wRwj, SPVarPropSave;
+     real           *f, *fj, *g, *r, *rj, *Rj = NULL, *Wt = NULL, *xRow;
+     size_t         i, j, kReg, kSP, m, n;
+     size_t         *IndexSPCol, *xIndex;
 
      n = MatNumRows(KrigChol(KrigMod));
      RegMod = KrigRegMod(KrigMod);

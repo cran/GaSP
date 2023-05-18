@@ -1,6 +1,6 @@
 #' Execute \code{PlotPredictions}, \code{PlotResiduals}, \code{PlotStdResiduals}, \code{PlotMainEffects}, and \code{PlotJointEffects}.
 #'
-#' Execute \code{PlotPredictions}, \code{PlotResiduals} and \code{PlotStdResiduals} (all applied to CV only),
+#' Execute \code{PlotPredictions}, \code{PlotResiduals} and \code{PlotStdResiduals} (all applied to cross validation only),
 #' \code{PlotMainEffects}, and \code{PlotJointEffects}.
 #'
 #' @param GaSP_model Object of class \code{\link{GaSPModel}},
@@ -46,7 +46,7 @@ PlotAll <- function(GaSP_model, cross_validation,
                     visualization,
                     y_name = "y", y_units = "", x_units = NULL, se_plot = TRUE,
                     y_values = NULL, se_values = NULL, pch = 1) {
-  if (class(GaSP_model) != "GaSPModel") {
+  if (!inherits(GaSP_model, 'GaSPModel')) {
     stop("Not a GaSP Model.")
   }
   backup_options <- options()

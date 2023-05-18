@@ -3,6 +3,7 @@
 /*   All rights reserved.                                        */
 /*                                                               */
 /*   2009.05.14: Multiple correlation families                   */
+/*   2022:10.10: const qualifier added to RegMod, and SPMod      */
 /*****************************************************************/
 
 #define KRIG_MOD_DEFINED
@@ -12,8 +13,8 @@ typedef struct
      /* X not saved as available via F and G. */
      real      *Y;       /* Responses. */
 
-     LinModel  *RegMod;       /* Regression model. */
-     LinModel  *SPMod;        /* Model for the stochastic process. */
+     const LinModel  *RegMod; /* Regression model. */
+     const LinModel  *SPMod;  /* Model for the stochastic process. */
      size_t    CorFam;        /* Correlation family */
      boolean   RanErr;        /* Is random error present? */
 

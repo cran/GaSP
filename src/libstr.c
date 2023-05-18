@@ -301,13 +301,14 @@ string StrFromInt(int i)
 /*             before the next call of StrFromInt,               */
 /*             StrFromSize_t, or StrFromReal.                    */
 /*                                                               */
-/*   Version:  1992 March 26                                     */
+/*   1992.03.26: Created                                         */
+/*   2023.05.17: sprintf replaced by snprintf                    */
 /*****************************************************************/
 {
      if (i == NA_INT)
           strcpy(Buf, NOT_AVAIL);
      else
-          sprintf(Buf, "%d", i);
+          snprintf(Buf, MAXTOK, "%d", i);
 
      return Buf;
 }
@@ -328,6 +329,7 @@ string StrFromReal(real r, const string Flags, int Precision,
 /*                                                               */
 /* 1993.11.14:                                                   */
 /* 1999.07.01: REAL_MAX gives INFINITY_TXT.                      */
+/* 2023.05.17: sprintf replaced by snprintf                      */
 /*****************************************************************/
 {
      char Format[10];
@@ -347,7 +349,7 @@ string StrFromReal(real r, const string Flags, int Precision,
           strcat(Format, ".*");
           strncat(Format, &Conversion, 1);
 
-          sprintf(Buf, Format, Precision, r);
+          snprintf(Buf, MAXTOK, Format, Precision, r);
      }
 
      return Buf;
@@ -356,19 +358,21 @@ string StrFromReal(real r, const string Flags, int Precision,
 /*******************************+++*******************************/
 string StrFromSize_t(size_t z)
 /*****************************************************************/
-/*   Purpose:  Return a string corresponding to a size_t.        */
+/*   Purpose:    Return a string corresponding to a size_t.      */
 /*                                                               */
-/*   Comment:  Calling routine should duplicate the string       */
-/*             before the next call of StrFromInt,               */
-/*             StrFromSize_t, or StrFromReal.                    */
+/*   Comment:    Calling routine should duplicate the string     */
+/*               before the next call of StrFromInt,             */
+/*               StrFromSize_t, or StrFromReal.                  */
 /*                                                               */
-/*   Version:  1992 March 26                                     */
+/*   1992.03.26: Created                                         */
+/*   2022.10.04: Cast z to unsigned int                          */
+/*   2023.05.17: sprintf replaced by snprintf                    */
 /*****************************************************************/
 {
      if (z == NA_SIZE_T)
           strcpy(Buf, NOT_AVAIL);
      else
-          sprintf(Buf, "%u", z);
+          snprintf(Buf, MAXTOK, "%u", (unsigned int) z);
 
      return Buf;
 }

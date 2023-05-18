@@ -293,7 +293,6 @@ SEXP fit(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
     SET_VECTOR_ELT(results, 2, CorPardf);
     UNPROTECT(1);
   }
-  UNPROTECT(1);
   AllocFree(y);
   StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
   StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
@@ -308,5 +307,6 @@ SEXP fit(SEXP x_R, SEXP y_R, SEXP reg_mod, SEXP sp_mod,
   {
     Rf_error("GaSP Fit failed.");
   }
+  UNPROTECT(1);
   return results;
 }

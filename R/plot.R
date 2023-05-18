@@ -171,9 +171,9 @@ PlotResiduals <- function(x, y_pred, y, x_units = NULL, y_name = "y",
   }
 }
 
-#' Normal Q-Q plot.
+#' Normal quantile-quantile (Q-Q) plot.
 #'
-#' Normal Q-Q plot of the standardized residuals
+#' Normal quantile-quantile (Q-Q) plot of the standardized residuals
 #' of predictions from \code{Predict} or \code{CrossValidate}.
 #' @inheritParams PlotPredictions
 #' @return No return value, generates plots.

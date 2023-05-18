@@ -4,7 +4,7 @@
 /*   Copyright (c) William J. Welch 1991--99.                    */
 /*   All rights reserved.                                        */
 /*                                                               */
-/*   Version: 2020.08.29                                         */
+/*   2022.10.10: Define SIZE_T_MAX only if undefined             */
 /*****************************************************************/
 
 #ifndef DBL_EPSILON

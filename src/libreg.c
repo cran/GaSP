@@ -296,14 +296,14 @@ int RegExtract(const Matrix *XDescrip, const string XDescripName,
 }
 
 /*******************************+++*******************************/
-int RegCandCompat(const Matrix *Cand, Matrix *Reg)
+int RegCandCompat(Matrix *Cand, Matrix *Reg)
 /*****************************************************************/
 /*   Purpose:  Update Reg for DISCRETE variables.                */
 /*                                                               */
 /*   Returns:  INCOMPAT_ERR if there is an incompatibility;      */
 /*             OK           otherwise.                           */
 /*                                                               */
-/*   Version:  1995 February 20                                  */
+/*   2022.10.10: const qualifier removed from Cand               */
 /*****************************************************************/
 {
      int ErrNum;

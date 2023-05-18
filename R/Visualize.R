@@ -66,7 +66,7 @@ Visualize <- function(GaSP_model, x_description,
                       interaction_percent = 0) {
   backup_options <- options()
   on.exit(options(backup_options))
-  if (class(GaSP_model) != "GaSPModel") {
+  if (!inherits(GaSP_model, 'GaSPModel')) {
     stop("Not a GaSP Model.")
   }
   Check <- .ErrorSummarizer()

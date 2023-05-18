@@ -64,12 +64,13 @@ int CVHelper(const Matrix *X, const real *y,
 }
 
 int CalcCV(KrigingModel *KrigMod, real *YHatCV, real *SE)
+/* 2022.10.10: Beta not declared: not used                       */
 {
   int ErrNum;
   Matrix C, FTilde;
   Matrix *Chol, *F, *Q, *R;
   real c, s, t;
-  real *Col, *Beta, *f, *r, *RBeta, *ResTilde, *Y, *YTilde;
+  real *Col, *f, *r, *RBeta, *ResTilde, *Y, *YTilde;
   size_t i, ii, j, k, m, n;
 
   Y = KrigY(KrigMod);
@@ -82,7 +83,7 @@ int CalcCV(KrigingModel *KrigMod, real *YHatCV, real *SE)
   f = KrigMod->fRow;
   r = KrigMod->r;
   RBeta = KrigMod->RBeta;
-  Beta = KrigMod->Beta;
+  /* Beta = KrigMod->Beta; */
   ResTilde = KrigMod->ResTilde;
 
   n = MatNumRows(F);
@@ -262,7 +263,7 @@ SEXP crossvalidate(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
     Rf_error("Regression model and Stochastic Process model setup failed.");
   }
   int result = CVHelper(&X, y, &RegMod, &SPMod, CorFamNum, RanErr, &CorPar, SPVar, ErrVar, &CV);
-  SEXP cvdf;
+  SEXP cvdf = R_NilValue;
   if (result == OK)
   {
     SEXP y_rowName = PROTECT(getAttrib(x_R, R_RowNamesSymbol));
@@ -274,6 +275,7 @@ SEXP crossvalidate(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
     UNPROTECT(2);
     MatFree(&CV);
   }
+  PROTECT(cvdf);
 
   AllocFree(y);
   StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
@@ -287,5 +289,6 @@ SEXP crossvalidate(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
   {
     Rf_error("GaSP Cross Validation failed.");
   }
+  UNPROTECT(1);
   return cvdf;
 }

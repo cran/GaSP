@@ -49,7 +49,7 @@ errors.}
 No return value, generates plots.
 }
 \description{
-Execute \code{PlotPredictions}, \code{PlotResiduals} and \code{PlotStdResiduals} (all applied to CV only),
+Execute \code{PlotPredictions}, \code{PlotResiduals} and \code{PlotStdResiduals} (all applied to cross validation only),
 \code{PlotMainEffects}, and \code{PlotJointEffects}.
 }
 \examples{

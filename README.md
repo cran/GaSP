@@ -8,3 +8,11 @@ See the documentation for the basic outline and some simple examples of GaSP fun
     * Added a vignette for GaSP.
     * Fixed memory leak in C functions.
     * Minor bug fixes for error matrix console output and Fit C initialization when 'random_error = TRUE'.
+    
+* Version 1.0.2: 
+    * PROTECT bugs fixed
+    * Compilation warnings about function prototypes, declarations, arguments fixed
+
+* Version 1.0.3: 
+    * More C compilation warnings fixed
+    * R class() comparison with string fixed 

@@ -1,8 +1,8 @@
 /*****************************************************************/
-/*   Copyright (c) William J. Welch 1991--99.                    */
-/*   All rights reserved.                                        */
-/*                                                               */
-/*   Version: 1999.06.24                                         */
+/*   Copyright (c) William J. Welch 1991--99.               */
+/*   All rights reserved.                                   */
+/*                                                          */
+/*   2022.10.10: CompIndex, CompReal, QuickReal prototypes  */
 /*****************************************************************/
 #include <R.h>
 #include <Rinternals.h>
@@ -457,7 +457,7 @@ int RegExtract(const Matrix *XDescrip, const string XDescripName,
 /*****************************************************************/
 
 /*****************************************************************/
-int RegCandCompat(const Matrix *Cand, Matrix *Reg);
+int RegCandCompat(Matrix *Cand, Matrix *Reg);
 /*****************************************************************/
 /*   Purpose:  Update Reg for DISCRETE variables.                */
 /*                                                               */
@@ -552,11 +552,11 @@ boolean RegIsCand(const Matrix *Reg);
 /* libsort.c: */
 
 void QuickIndex(const real *x, size_t n, size_t *Index);
-int CompIndex();
+int CompIndex(const void *i1, const void *i2);
 void QuickRank(const real *x, size_t n, size_t *Rank);
 
 /*****************************************************************/
-void QuickReal(size_t n, const real *x);
+void QuickReal(size_t n, real *x);
 /*****************************************************************/
 /*   Purpose:  Sort x[0], ..., x[n-1], smallest to largest.      */
 /*                                                               */
@@ -564,11 +564,10 @@ void QuickReal(size_t n, const real *x);
 /*             item using (void *), etc.                         */
 /*****************************************************************/
 
-/*****************************************************************/
-int CompReal(/* real *x1, real *x2 */);
+/*****************************+++*******************************/
+int CompReal(const void *x1, const void *x2);
 /*****************************************************************/
 /*   Purpose:  Compare *x1 and *x2 for qsort called by QuickReal.*/
-/*****************************************************************/
 
 /* libstr.c: */
 

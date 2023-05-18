@@ -137,6 +137,7 @@ int MLEFit
 /*             SPVarProp optimization and MLELike() replaced by  */
 /*             MLELikeScale() (bug)                              */
 /* 2020.08.29: CodeCheck for LogLikeTol and CritLogLikeDiff      */
+/* 2022.10.10: Iter removed (not used)                           */
 /*****************************************************************/
 {
     real      AbsTol, CondChol, CondR, SPVarPropSave;
@@ -144,7 +145,7 @@ int MLEFit
     real      *CorParVec;
     Matrix    RegSPVarProp;
     Matrix    *Chol, *CorPar, *G;
-    size_t    i, Iter, j, kSP, nParsOneTerm, nPars;
+    size_t    i, j, kSP, nParsOneTerm, nPars;
     size_t    *Perm, *SupportSave;
    
     CodeCheck(LogLikeTol > EPSILON);
@@ -185,11 +186,11 @@ int MLEFit
     *TotFuncs = 1;
 
     /* Do until converged. */
-    Iter = 1;
+    /* Iter = 1; */
     AbsTol = (kSP > 1 || KrigRanErr(KrigMod)) ? 1.0 : LogLikeTol;
     do
     {
-        Iter++;
+        /* Iter++; */
 
         OldNegLogLike = *NegLogLike;
 
@@ -389,7 +390,7 @@ real  *NegLogLike        /* Input: Current -log(likelihood);*/
 }
 
 /*******************************+++*******************************/
-real MLELike()
+real MLELike(void)
 /*****************************************************************/
 /*   Purpose:  Computes the negative log likelihood given by     */
 /*             1/2 [log det (C) + n log sigma hat squared].      */
@@ -401,6 +402,7 @@ real MLELike()
 /*                                                               */
 /*   1995.02.14: Created                                         */
 /*   2013.06.26: Bayes posterior option added                    */
+/*   2022.10.06: Argument void                                   */
 /*****************************************************************/
 {
     int       d2;

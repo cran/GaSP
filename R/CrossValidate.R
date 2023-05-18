@@ -36,7 +36,7 @@
 #' borehole_cv <- CrossValidate(borehole_fit)
 #' @export
 CrossValidate <- function(GaSP_model) {
-  if (class(GaSP_model) != "GaSPModel") {
+  if (!inherits(GaSP_model, 'GaSPModel')) {
     stop("Not a GaSP Model.")
   }
   backup_options <- options()

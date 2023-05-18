@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{PlotQQ}
 \alias{PlotQQ}
-\title{Normal Q-Q plot.}
+\title{Normal quantile-quantile (Q-Q) plot.}
 \usage{
 PlotQQ(y_pred, y, y_name = "y")
 }
@@ -20,7 +20,7 @@ containing the true output values.}
 No return value, generates plots.
 }
 \description{
-Normal Q-Q plot of the standardized residuals
+Normal quantile-quantile (Q-Q) plot of the standardized residuals
 of predictions from \code{Predict} or \code{CrossValidate}.
 }
 \examples{

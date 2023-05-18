@@ -2,7 +2,7 @@
 /*   Copyright (c) William J. Welch 1990--96.                    */
 /*   All rights reserved.                                        */
 /*                                                               */
-/*   Version: 1996.03.31                                         */
+/*   2022.10.10: const qualifier for TermNames                   */
 /*****************************************************************/
 
 #define TERM_COL_TYPES   {STRING, SIZE_T, INTEGERC, SIZE_T}
@@ -27,9 +27,9 @@
 /* New type for a linear model. */
 typedef struct
 {
-     size_t    nTerms;        /* Number of terms.        */
-     string    *TermNames;    /* Names of the terms.     */
-     Matrix    *Term;         /* A matrix for each term. */
+     size_t       nTerms;        /* Number of terms.        */
+     const string *TermNames;    /* Names of the terms.     */
+     Matrix       *Term;         /* A matrix for each term. */
 } LinModel;
 
 #define ModDF(Mod)            ((Mod)->nTerms)

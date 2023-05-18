@@ -54,11 +54,12 @@ void KrigPred(KrigingModel *KrigMod, const Matrix *XPred,
 /*                                                               */
 /* 1996.04.03: Cases in XPred with NA's generate NA for YHat.    */
 /* 2009.05.13: KrigCorVec arguments changed                      */
+/* 2022.10.10: const RegMod and SPMod                            */
 /*****************************************************************/
 {
-     LinModel  *RegMod, *SPMod;
-     real      *Beta, *fRow, *gRow, *r, *xRow;
-     size_t    i, n;
+     const LinModel  *RegMod, *SPMod;
+     real            *Beta, *fRow, *gRow, *r, *xRow;
+     size_t          i, n;
 
      n = MatNumRows(KrigChol(KrigMod));
 
@@ -118,13 +119,14 @@ int KrigPredSE(KrigingModel *KrigMod, const Matrix *XPred,
 /*             KrigMod->SPVarProp instead of 1.0 to predict      */
 /*             f(x) beta + Z *without* epsilon.                  */
 /* 2009.05.13: KrigCorVec arguments changed                      */
+/* 2022.10.10: const qualifier for RegMod, SPMod                 */
 /*****************************************************************/
 {
-     int       ErrNum;
-     LinModel  *RegMod, *SPMod;
-     Matrix    *G;
-     real      *fRow, *gRow, *r, *xRow;
-     size_t    i, m;
+     int            ErrNum;
+     const LinModel *RegMod, *SPMod;
+     Matrix         *G;
+     real           *fRow, *gRow, *r, *xRow;
+     size_t         i, m;
 
      G = KrigG(KrigMod);
 

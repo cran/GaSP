@@ -139,7 +139,7 @@
     .Error("'sp_var' and 'error_var' must be nonnegative.", check)
   }
   if (!is.null(sp_model)) {
-    if (class(sp_model) != "formula") {
+    if (!inherits(sp_model, 'formula')) {
       stop("invalid 'sp_model'.", call. = FALSE)
     }
     sp_terms <- terms(sp_model)
@@ -163,7 +163,7 @@
       }
     }
   }
-  if (class(reg_model) != "formula") {
+  if (!inherits(reg_model, 'formula')) {
     stop("invalid 'reg_model'.", call. = FALSE)
   }
   labels <- rownames(attr(terms(reg_model), "factors"))
@@ -208,7 +208,7 @@
     }
   }
   if (!is.null(sp_model)) {
-    if (class(sp_model) != "formula") {
+    if (!inherits(sp_model, 'formula')) {
       stop("invalid 'sp_model'.", call. = FALSE)
     }
     sp_terms <- terms(sp_model)
@@ -235,7 +235,7 @@
       }
     }
   }
-  if (class(reg_model) != "formula") {
+  if (!inherits(reg_model, 'formula')) {
     stop("invalid 'reg_model'.", call. = FALSE)
   }
   labels <- rownames(attr(terms(reg_model), "factors"))

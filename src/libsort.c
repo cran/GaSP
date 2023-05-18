@@ -49,21 +49,21 @@ void QuickIndex(const real *x, size_t n, size_t *Index)
 
 /*******************************+++*******************************/
 /*                                                               */
-/*   int       CompIndex(size_t *i1, size_t *i2)                 */
+/*   int       CompIndex(const void *i1, const void *i2)         */
 /*                                                               */
 /*   Purpose:  Compare xx[*i1] and xx[*i2] (i.e., x[*i1] and     */
 /*             x[*i2] in QuickIndex) for qsort called by         */
 /*             QuickIndex.                                       */
 /*                                                               */
-/*   Version:  1991 June 10                                      */
+/*   2022.10.06: Function declaration compatible with qsort      */
 /*                                                               */
 /*****************************************************************/
 
-int CompIndex(size_t *i1, size_t *i2)
+int CompIndex(const void *i1, const void *i2)
 {
-     if (xx[*i1] < xx[*i2])
+     if (xx[*(size_t *)i1] < xx[*(size_t *)i2])
           return -1;
-     else if (xx[*i1] > xx[*i2])
+     else if (xx[*(size_t *)i1] > xx[*(size_t *)i2])
           return 1;
      else
           return 0;
@@ -103,32 +103,31 @@ void QuickRank(const real *x, size_t n, size_t *Rank)
 }
 
 /*******************************+++*******************************/
-void QuickReal(size_t n, const real *x)
+void QuickReal(size_t n, real *x)
 /*****************************************************************/
 /*   Purpose:  Sort x[0], ..., x[n-1], smallest to largest.      */
 /*                                                               */
 /*   Comment:  Could be adapted to find ranks for any type of    */
 /*             item using (void *), etc.                         */
 /*                                                               */
-/*   Version:  1994 February 27                                  */
+/*   2022.10.07: const qualifier removed from x                  */
 /*****************************************************************/
 {
      qsort(x, n, sizeof(real), CompReal);
 }
 
 /*******************************+++*******************************/
-int CompReal(real *x1, real *x2)
+int CompReal(const void *x1, const void *x2)
 /*****************************************************************/
 /*   Purpose:  Compare *x1 and *x2 for qsort called by QuickReal.*/
 /*                                                               */
-/*   Version:  1994 February 27                                  */
+/*   2022.10.06: Function declaration compatible with qsort      */
 /*****************************************************************/
 {
-     if (*x1 < *x2)
+     if (*(real *)x1 < *(real *)x2)
           return -1;
-     else if (*x1 > *x2)
+     else if (*(real *)x1 > *(real *)x2)
           return 1;
      else
           return 0;
 }
-

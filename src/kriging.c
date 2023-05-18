@@ -438,11 +438,11 @@ boolean KrigIsXActive(const KrigingModel *KrigMod, size_t j)
 /*             in either the regression model or the stochastic- */
 /*             process model.                                    */
 /*                                                               */
-/*   Version:  1996.03.22                                        */
-/*****************************************************************/
+/*   2022.10.10: const RegMod and SPMod                          */
+//*****************************************************************/
 {
-     LinModel *RegMod, *SPMod;
-     real *Beta, *Theta;
+     const LinModel *RegMod, *SPMod;
+     real           *Beta, *Theta;
 
      RegMod = KrigRegMod(KrigMod);
      SPMod = KrigSPMod(KrigMod);

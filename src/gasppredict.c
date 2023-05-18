@@ -147,7 +147,6 @@ SEXP predict(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
     }
   }
 
-  UNPROTECT(1);
   AllocFree(y);
   StrFree(&RegMod_Term, (size_t)Rf_length(VECTOR_ELT(reg_mod, 0)));
   StrFree(&SPMod_Term, (size_t)Rf_length(VECTOR_ELT(sp_mod, 0)));
@@ -162,5 +161,6 @@ SEXP predict(SEXP reg_mod, SEXP sp_mod, SEXP ranErr, SEXP corFamNum,
   {
     Rf_error("GaSP Predict failed.");
   }
+  UNPROTECT(1);
   return reslist;
 }

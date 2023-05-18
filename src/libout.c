@@ -46,6 +46,7 @@ static string SeverityStr[] = SEVERITY_STRS;
 /*                                                               */
 /* 1995.05.02:                                                   */
 /* 2000.02.15: Output("\n") added to Fatal().                    */
+/* 2023.05.17: vsprintf replaced by vsnprintf                    */
 /*****************************************************************/
 
 void Output(const string Format, ...)
@@ -54,7 +55,7 @@ void Output(const string Format, ...)
 
      va_start(Args, Format);
 
-     vsprintf(Buf, Format, Args);
+     vsnprintf(Buf, MAXTOK + 1, Format, Args);
 
      Rprintf(Buf);
 
@@ -90,7 +91,8 @@ void ErrorToMat(const string Severity, const string Format,
 /*****************************************************************/
 /*   Purpose:  Save error, warning, etc. messages in a matrix.   */
 /*                                                               */
-/*   Version:  1995 March 10                                     */
+/* 1995.03.10:                                                   */
+/* 2023.05.17: vsprintf replaced by vsnprintf                    */
 /*****************************************************************/
 {
      size_t j, nRowsOld, LastTry;
@@ -115,7 +117,7 @@ void ErrorToMat(const string Severity, const string Format,
      LastMess = (Message != NULL) ? Message[nRowsOld - 1] : NULL;
 
      /* Put the message in Buf. */
-     vsprintf(Buf, Format, Args);
+     vsnprintf(Buf, MAXTOK + 1, Format, Args);
 
      /* Remove any terminating ".\n". */
      TermPtr = Buf + strlen(Buf) - 2;

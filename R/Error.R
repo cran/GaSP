@@ -1,4 +1,6 @@
 .ErrorSummarizer <- function() {
+  backup_options <- options()
+  on.exit(options(backup_options))
   check <- new.env()
   assign("error", NULL, envir = check)
   options(warn = 1)

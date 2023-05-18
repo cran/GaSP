@@ -55,7 +55,7 @@
 Predict <- function(GaSP_model,
                     x_pred,
                     generate_coefficients = c(FALSE, TRUE)) {
-  if (class(GaSP_model) != "GaSPModel") {
+  if (!inherits(GaSP_model, 'GaSPModel')) {
     stop("Not a GaSP Model.", call. = FALSE)
   }
   if (!is.logical(generate_coefficients)) {
