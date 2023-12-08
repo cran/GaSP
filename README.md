@@ -16,3 +16,9 @@ See the documentation for the basic outline and some simple examples of GaSP fun
 * Version 1.0.3: 
     * More C compilation warnings fixed
     * R class() comparison with string fixed 
+
+* Version 1.0.4
+    * sprintf and vsprintf replaced by snprintf and vsnprintf, repsectively
+
+* Version 1.0.5
+    * C format specifiers and type casts fixed for output messages

@@ -47,6 +47,7 @@ static string SeverityStr[] = SEVERITY_STRS;
 /* 1995.05.02:                                                   */
 /* 2000.02.15: Output("\n") added to Fatal().                    */
 /* 2023.05.17: vsprintf replaced by vsnprintf                    */
+/* 2023.12.05: format argument added to Rprintf and Rf_error     */
 /*****************************************************************/
 
 void Output(const string Format, ...)
@@ -57,7 +58,7 @@ void Output(const string Format, ...)
 
      vsnprintf(Buf, MAXTOK + 1, Format, Args);
 
-     Rprintf(Buf);
+     Rprintf("%s", Buf);
 
      va_end(Args);
 
@@ -81,7 +82,7 @@ void Error(const string Format, ...)
 void Fatal(const string Format, ...)
 {
         string message = StrPaste(2, "Fatal error: ", Format);
-        Rf_error(message);
+        Rf_error("%s", message);
 }
 
 

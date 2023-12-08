@@ -77,18 +77,17 @@ void RegAlloc(size_t nVars, Matrix *Reg)
 int RegExtract(const Matrix *XDescrip, const string XDescripName,
                const string ColExt, Matrix *Reg)
 /*****************************************************************/
-/*   Purpose:  Extract region Reg from XDescrip.                 */
+/* Purpose:  Extract region Reg from XDescrip.                   */
 /*                                                               */
-/*   Returns:  INPUT_ERR    if user's matrix is illegal;         */
-/*             OK           otherwise.                           */
+/* Returns:  INPUT_ERR    if user's matrix is illegal;           */
+/*            OK           otherwise.                            */
 /*                                                               */
-/*   96.01.18: CodeBug parameters changed.                       */
-/*   96.01.22: CodeBug parameters changed.                       */
-/*   96.10.21: Empty (no VARIABLE column) XDescrip trapped.      */
+/* 1996.01.18: CodeBug parameters changed.                       */
+/* 1996.01.22: CodeBug parameters changed.                       */
+/* 1996.10.21: Empty (no VARIABLE column) XDescrip trapped.      */
 /*             (Previously generated hard fail.)                 */
-/*   96.02.18: */
-/*                                                               */
-/*   Version:  1996.02.03/1996.10.21                             */
+/* 2023.12.05: Cast from size_t to unsigned long in              */
+/*             Rprintf(REG_CAND_GROUP, )                         */
 /*****************************************************************/
 {
      boolean IsCat;
@@ -284,7 +283,7 @@ int RegExtract(const Matrix *XDescrip, const string XDescripName,
           if (CandGroup != NULL && CandGroup[i] > 0 &&
               RegSupport(Reg, i) != DISCRETE)
           {
-               Rprintf(REG_CAND_GROUP, Variable[i], CandGroup[i]);
+               Rprintf(REG_CAND_GROUP, Variable[i], (unsigned long)CandGroup[i]);
                ErrNum = INPUT_ERR;
           }
      }

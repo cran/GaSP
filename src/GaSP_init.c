@@ -3,6 +3,8 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
+/*   2023.12.05: newline added at end of file  */
+
 /* FIXME: 
    Check these declarations against the C/Fortran source code.
 */

@@ -1,5 +1,7 @@
 #include "RCconvert.h"
 
+/*   2023.12.05: newline added at end of file  */
+
 SEXP RealVecConstructor(real **r, size_t nRows)
 {
   SEXP vec = PROTECT(allocVector(REALSXP, (int)nRows));
@@ -416,3 +418,4 @@ void tick(double times)
     R_FlushConsole();
   }
 }
+

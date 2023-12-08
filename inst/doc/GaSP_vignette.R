@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = ""
@@ -84,20 +84,20 @@ head(borehole_pred$y_pred, n = 3)
 borehole_cv <- CrossValidate(borehole_gasp)
 head(borehole_cv, n = 3)
 
-## ---- figures-p1, fig.show="hold", out.width="50%"----------------------------
+## ----figures-p1, fig.show="hold", out.width="50%"-----------------------------
 PlotPredictions(borehole_pred$y_pred, y_true,
   y_name = "Water Flow Rate", y_units = "m^3/yr", title = "Predict")
 PlotStdResiduals(borehole_pred$y_pred, y_true,
   y_name = "Water Flow Rate", y_units = "m^3/yr", title = "Predict")
 
-## ---- figures-p2, fig.show="hold", out.width="50%"----------------------------
+## ----figures-p2, fig.show="hold", out.width="50%"-----------------------------
 PlotResiduals(x_pred[, 1:4], borehole_pred$y_pred,
               y_true, y_name = "Water Flow Rate", y_units = "m^3/yr")
 
-## ---- figures-p3, fig.show="hold", out.width="50%", fig.align = 'center'------
+## ----figures-p3, fig.show="hold", out.width="50%", fig.align = 'center'-------
 PlotQQ(borehole_pred$y_pred, y_true, y_name = "Water Flow Rate")
 
-## ---- figures-cv, results='hide', fig.show="hide"-----------------------------
+## ----figures-cv, results='hide', fig.show="hide"------------------------------
 PlotPredictions(borehole_cv, y,
   y_name = "Water Flow Rate", y_units = "m^3/yr", title = "CrossValidate")
 PlotStdResiduals(borehole_cv, y,
@@ -133,12 +133,12 @@ borehole_vis <- Visualize(borehole_gasp, borehole_x_desc,
 head(borehole_vis$main_effect, n = 3)
 head(borehole_vis$joint_effect, n = 3)
 
-## ---- figures-vis_main, fig.show="hold", out.width="33.3%"--------------------
+## ----figures-vis_main, fig.show="hold", out.width="33.3%"---------------------
 PlotMainEffects(borehole_vis$main_effect, borehole_vis$anova_percent)
 
-## ---- figures-vis_joint, fig.show="hold", out.width="33.3%"-------------------
+## ----figures-vis_joint, fig.show="hold", out.width="33.3%"--------------------
 PlotJointEffects(borehole_vis$joint_effect, borehole_vis$anova_percent)
 
-## ---- figures-all, fig.show='hide'--------------------------------------------
+## ----figures-all, fig.show='hide'---------------------------------------------
 PlotAll(borehole_gasp, borehole_cv, borehole_vis)
 

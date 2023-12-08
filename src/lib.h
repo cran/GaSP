@@ -1,8 +1,10 @@
 /*****************************************************************/
-/*   Copyright (c) William J. Welch 1991--99.               */
-/*   All rights reserved.                                   */
-/*                                                          */
-/*   2022.10.10: CompIndex, CompReal, QuickReal prototypes  */
+/*   Copyright (c) William J. Welch 1991--99.                         */
+/*   All rights reserved.                                             */
+/*                                                                    */
+/*   2022.10.10: CompIndex, CompReal, QuickReal prototypes            */
+/*   2023.12.05: Third %s format specifier in REG_CAT_STEP removed    */
+/*   2023.12.07: Format specifier %d changed to %lu in REG_CAND_GROUP */
 /*****************************************************************/
 #include <R.h>
 #include <Rinternals.h>
@@ -24,12 +26,12 @@
 /* libreg.c error messages: */
 
 #define REG_CAND "Discrete variable %s must appear in the Candidates matrix.\n"
-#define REG_CAND_GROUP "Variable %s has CandidateGroup = %d: Support must be Discrete.\n"
+#define REG_CAND_GROUP "Variable %s has CandidateGroup = %lu: Support must be Discrete.\n"
 #define REG_CAT "%s variable %s is categorical: "
 #define REG_CAT_CONT "%s variable %s is categorical: It cannot also be continuous.\n"
 #define REG_CAT_MAX "%s variable %s is categorical: Max must be an integer < or = the number of categorical levels.\n"
 #define REG_CAT_MIN "%s variable %s is categorical: Min must be an integer > 0.\n"
-#define REG_CAT_STEP "%s variable %s is categorical: Min, Max, and NumberLevels\n must give a step length of 1 for variable %s.\n"
+#define REG_CAT_STEP "%s variable %s is categorical: Min, Max, and NumberLevels\n must give a step length of 1.\n"
 #define REG_MINMAX "%s variable %s must have Min (default 0) < or = Max (default 1).\n"
 #define REG_INC_NORM "%s variable %s cannot have inclusive ranges because it has a normal distribution.\n"
 #define REG_NUM_LEVELS "%s variable %s must have NumberLevels > 0.\n"
