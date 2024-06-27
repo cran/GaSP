@@ -94,6 +94,7 @@ void ErrorToMat(const string Severity, const string Format,
 /*                                                               */
 /* 1995.03.10:                                                   */
 /* 2023.05.17: vsprintf replaced by vsnprintf                    */
+/* 2024.06.23: *TermPtr = '\0' (null character, not NULL)        */
 /*****************************************************************/
 {
      size_t j, nRowsOld, LastTry;
@@ -123,7 +124,7 @@ void ErrorToMat(const string Severity, const string Format,
      /* Remove any terminating ".\n". */
      TermPtr = Buf + strlen(Buf) - 2;
      if (stricmp(TermPtr, ".\n") == 0)
-          *TermPtr = NULL;
+          *TermPtr = '\0';  /* null character */
 
      if (stricmp(ErrorVar, LastVar) == 0 && ErrorTry == LastTry &&
          stricmp(Buf, LastMess) == 0)

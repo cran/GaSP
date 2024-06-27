@@ -1,7 +1,7 @@
 # GaSP: Train and Apply a Gaussian Stochastic Process Model
 
-GaSP R package, created by [William J. Welch](https://www.stat.ubc.ca/~will/) and [Yilin Yang](https://freddieneverleft.github.io/).  
-See the documentation for the basic outline and some simple examples of GaSP functions, see the vignette for a more detailed discription of GaSP as well as some noteworthy implementation choices made by the authors.
+GaSP R package, created by [William J. Welch](https://www.stat.ubc.ca/~will/) and [Yilin Yang](https://www.linkedin.com/in/yilinyang-/).  
+See the documentation for the basic outline and some simple examples of GaSP functions, and see the vignette for a more detailed description of GaSP as well as some noteworthy implementation choices made by the authors.
 
 ## Changelogs:
 * Version 1.0.1: 
@@ -18,7 +18,10 @@ See the documentation for the basic outline and some simple examples of GaSP fun
     * R class() comparison with string fixed 
 
 * Version 1.0.4
-    * sprintf and vsprintf replaced by snprintf and vsnprintf, repsectively
+    * sprintf and vsprintf replaced by snprintf and vsnprintf, respectively
 
 * Version 1.0.5
     * C format specifiers and type casts fixed for output messages
+    
+* Version 1.0.6
+    * C types and type casts fixed

@@ -134,6 +134,7 @@ size_t MatColWidth(const Matrix *M, size_t j, int *Precision,
 /*               'e' or 'f'.                                       */
 /*                                                                 */
 /*   2020.08.22: NULL replaced by '\0'                             */
+/*   2024.06.23: StrEnd - DecPoint cast to int                     */
 /*****************************************************************/
 {
      size_t    ExponLen, i, Width;
@@ -185,7 +186,8 @@ size_t MatColWidth(const Matrix *M, size_t j, int *Precision,
                     StrEnd = s + strlen(s) - 1;
                     while (StrEnd > DecPoint && *StrEnd == '0')
                          *StrEnd-- = '\0';
-                    *Precision = max(StrEnd - DecPoint, *Precision);
+                    /* Difference in pointers has type ptrdiff_t*/
+                    *Precision = max((int)(StrEnd - DecPoint), *Precision);
 
                     /* Delete digits after decimal point;        */
                     /* if none, delete the decimal point itself. */

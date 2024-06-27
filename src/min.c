@@ -235,12 +235,13 @@ unsigned MinAnyX(real (*ObjFunc)(real *x, size_t nDims),
 unsigned MinDisc(size_t NumVars, const size_t *VarIndex,
      const Matrix *XReg, real *x, real *Obj)
 /*****************************************************************/
-/*   Purpose:  Minimize over the NumVars DISCRETE or GRID        */
+/* Purpose:    Minimize over the NumVars DISCRETE or GRID        */
 /*             variables with indices in VarIndex.               */
 /*                                                               */
-/*   Returns:  Number of function evaluations.                   */
+/* Returns:    Number of function evaluations.                   */
 /*                                                               */
-/*   Version:  1992 May 28                                       */
+/* 1992 May 28                                                   */
+/* 2024.06.24: Return value cast to unsigned                     */
 /*****************************************************************/
 {
      real      TrialObj;
@@ -279,7 +280,7 @@ unsigned MinDisc(size_t NumVars, const size_t *VarIndex,
 
      AllocFree(xBest);
 
-     return NumLevels;   /* Number of function evaluations. */
+     return (unsigned) NumLevels;   /* Number of function evaluations. */
 }
 
 /*******************************+++*******************************/

@@ -52,8 +52,7 @@ unsigned MinCont(real (*ObjFunc)(real *x, size_t nDims),
 /*   96.03.08: Calls ObjFuncUncon to convert unconstrained       */
 /*             ranges to constrained ranges.                     */
 /*             Calls MinTryBounds.                               */
-/*                                                               */
-/*   Version:  1996.03.08                                        */
+/*   2024.06.23: nDims cast to unsigned to initialize nEvals     */
 /*****************************************************************/
 {
      real      *Obj, r;
@@ -108,7 +107,7 @@ unsigned MinCont(real (*ObjFunc)(real *x, size_t nDims),
 
                Obj[i] = ObjFuncUncon(Simp[i], nDims);
           }
-          nEvals = nDims;
+          nEvals = (unsigned) nDims;
 
           MaxFuncs = (nEvals <= MaxFuncs) ?
                     MaxFuncs - nEvals : 0;

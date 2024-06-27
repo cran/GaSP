@@ -192,9 +192,10 @@ real TriCond(const Matrix *R)
 /*                                                               */
 /* 1995.04.10: Created                                           */
 /* 1999.06.17: Some braces added to avoid ambiguous else.        */
+/* 2024.06.23: size_t j, k, kk, n replaces int                   */
 /*****************************************************************/
 {
-     int  j, k, kk, n;
+     size_t j, k, kk, n;
      real e, Rcond, Rnorm, Rsave, ynorm, s, sm;
      real w, wk, wkm, ek ;
      real *z;

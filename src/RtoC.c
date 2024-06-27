@@ -1,6 +1,6 @@
 #include "RCconvert.h"
 
-/*   2023.12.05: newline added at end of file  */
+/*   2023.12.05: newline added at end of file */
 
 SEXP RealVecConstructor(real **r, size_t nRows)
 {
@@ -30,8 +30,11 @@ SEXP RealDFConstructor(real **r, SEXP rowName_R, SEXP colName_R, size_t nRows)
 }
 
 SEXP JointEffDFConstructor(matrix *m)
+/* 2024.06.23: size_t nRows replaces int */
+/* 2024.06.23 size_t i replaces int i (twice) */
+/* 2024.06.23 size_t j replaces int j (twice) */
 {
-  int nRows = MatNumRows(m);
+  size_t nRows = MatNumRows(m);
   SEXP df = PROTECT(allocVector(VECSXP, 6));
   SEXP colName = PROTECT(allocVector(STRSXP, 6));
   SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
@@ -45,22 +48,22 @@ SEXP JointEffDFConstructor(matrix *m)
   SET_STRING_ELT(colName, 3, mkChar("x_j"));
   SET_STRING_ELT(colName, 4, mkChar("y"));
   SET_STRING_ELT(colName, 5, mkChar("SE"));
-  for (int i = 0; i < 2; i++)
+  for (size_t i = 0; i < 2; i++)
   {
     SEXP scol = PROTECT(allocVector(STRSXP, nRows));
     string *scol_c = MatStrCol(m, i);
-    for (int j = 0; j < nRows; j++)
+    for (size_t j = 0; j < nRows; j++)
     {
       SET_STRING_ELT(scol, j, mkChar(scol_c[j]));
     }
     SET_VECTOR_ELT(df, i, scol);
     UNPROTECT(1);
   }
-  for (int i = 2; i < 6; i++)
+  for (size_t i = 2; i < 6; i++)
   {
     SEXP col = PROTECT(allocVector(REALSXP, nRows));
     double *pcol = REAL(col);
-    for (int j = 0; j < nRows; j++)
+    for (size_t j = 0; j < nRows; j++)
     {
       pcol[j] = MatElem(m, j, i + 1);
     }
@@ -77,9 +80,12 @@ SEXP JointEffDFConstructor(matrix *m)
 }
 
 SEXP MainEffDFConstructor(matrix *m)
+/* 2024.06.23: size_t nRows, nCols replaces int */
+/* 2024.06.23 size_t i replaces int i  */
+/* 2024.06.23 size_t j replaces int j (twice) */
 {
-  int nCols = MatNumCols(m);
-  int nRows = MatNumRows(m);
+  size_t nCols = MatNumCols(m);
+  size_t nRows = MatNumRows(m);
   SEXP df = PROTECT(allocVector(VECSXP, nCols - 1));
   SEXP colName = PROTECT(allocVector(STRSXP, 4));
   SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
@@ -94,17 +100,17 @@ SEXP MainEffDFConstructor(matrix *m)
 
   SEXP scol = PROTECT(allocVector(STRSXP, nRows));
   string *scol_c = MatStrCol(m, 0);
-  for (int j = 0; j < nRows; j++)
+  for (size_t j = 0; j < nRows; j++)
   {
     SET_STRING_ELT(scol, j, mkChar(scol_c[j]));
   }
   SET_VECTOR_ELT(df, 0, scol);
   UNPROTECT(1);
-  for (int i = 1; i < 4; i++)
+  for (size_t i = 1; i < 4; i++)
   {
     SEXP col = PROTECT(allocVector(REALSXP, nRows));
     double *pcol = REAL(col);
-    for (int j = 0; j < nRows; j++)
+    for (size_t j = 0; j < nRows; j++)
     {
       pcol[j] = MatElem(m, j, i + 1);
     }
@@ -121,14 +127,16 @@ SEXP MainEffDFConstructor(matrix *m)
 }
 
 SEXP ANOVAMatrixDFConstructor(matrix *m)
+/* 2024.06.23: size_t nRows, nCols replaces int */
+/* 2024.06.23: size_t j replaces int (twice) */
 {
-  int nCols = MatNumCols(m);
-  int nRows = MatNumRows(m);
+  size_t nCols = MatNumCols(m);
+  size_t nRows = MatNumRows(m);
   SEXP df = PROTECT(allocVector(VECSXP, nCols));
   SEXP colName = PROTECT(allocVector(STRSXP, 1));
   SEXP rowName = PROTECT(allocVector(STRSXP, nRows));
   string *rownames = MatRowNames(m);
-  for (int j = 0; j < nRows; j++)
+  for (size_t j = 0; j < nRows; j++)
   {
     SET_STRING_ELT(rowName, j, mkChar(rownames[j]));
   }
@@ -136,7 +144,7 @@ SEXP ANOVAMatrixDFConstructor(matrix *m)
   SET_STRING_ELT(colName, 0, mkChar("y"));
   SEXP col = PROTECT(allocVector(REALSXP, nRows));
   double *pcol = REAL(col);
-  for (int j = 0; j < nRows; j++)
+  for (size_t j = 0; j < nRows; j++)
   {
     pcol[j] = MatElem(m, j, 0);
   }
@@ -254,6 +262,7 @@ void StrFree(string **s, size_t n)
 }
 
 void XDescripAlloc(matrix *m, SEXP df, const string *xName)
+/* 2024.06.23 size_t i replaces int i (twice) */
 {
   string *colNames;
   GetColName(&colNames, df);
@@ -265,7 +274,7 @@ void XDescripAlloc(matrix *m, SEXP df, const string *xName)
   Coltypes[2] = REALC;
   if (nCols > 3)
   {
-    for (int i = 3; i < nCols; i++)
+    for (size_t i = 3; i < nCols; i++)
     {
       if (stricmp(colNames[i], "Support") == 0)
       {
@@ -296,7 +305,7 @@ void XDescripAlloc(matrix *m, SEXP df, const string *xName)
   VecCopy(REAL(v), nRows, MatCol(m, 2));
   if (nCols > 3)
   {
-    for (int i = 3; i < nCols; i++)
+    for (size_t i = 3; i < nCols; i++)
     {
       if (stricmp(colNames[i], "Support") == 0)
       {
@@ -397,6 +406,8 @@ void ProgressInit(double taskCount)
 }
 
 void tick(double times)
+/* 2024.06.23: int replaced by size_t three times */
+/* 2024.06.23: cast applied to *product* of doubles */
 {
   tickCount += times;
   if (tickCount == totalTasks)
@@ -410,8 +421,10 @@ void tick(double times)
   else
   {
     Rprintf("\rProgress: [");
-    int tick_f = (int)tickCount * tickSize;
-    for (int j = 0; j < tick_f; j++)
+    /* int tick_f = (int)tickCount * tickSize; */
+    /* for (int j = 0; j < tick_f; j++) */
+    size_t tick_f = (size_t)(tickCount * tickSize);
+    for (size_t j = 0; j < tick_f; j++)
     {
       Rprintf("=");
     }
